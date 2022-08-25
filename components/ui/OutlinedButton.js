@@ -30,14 +30,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.primary700,
     borderRadius: 6,
-    width: 150,
+    minWidth: 150
   },
   icon: {
     marginRight: 4
   },
   buttonText: {
     textAlign: "center",
-    fontSize: 18,
     color: Colors.primary700,
   },
   pressed: {
