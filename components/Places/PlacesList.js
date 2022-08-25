@@ -1,14 +1,13 @@
-import { FlatList, Text, StyleSheet } from "react-native";
+import { FlatList, Text, StyleSheet, View } from "react-native";
 import PlacesListItem from "./PlacesListItem";
 
 const PlacesList = ({ places }) => {
   if (!places || places.length === 0) {
     return (
       <View style={styles.fallbackContainer}>
-
-      <Text style={styles.fallbackText}>
-        No places added yet - start adding some!
-      </Text>
+        <Text style={styles.fallbackText}>
+          No places added yet - start adding some!
+        </Text>
       </View>
     );
   }
@@ -30,6 +29,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   fallbackText: {
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 });
