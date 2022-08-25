@@ -1,9 +1,10 @@
-import { View, StyleSheet, Alert } from "react-native";
+import { useState } from "react";
+import { View, StyleSheet, Alert, Image, Text } from "react-native";
 import { getCurrentPositionAsync, useForegroundPermissions, PermissionStatus } from "expo-location";
 
 import OutlinedButton from "../ui/OutlinedButton";
 import { Colors } from "../../constants/colors";
-import { useState } from "react";
+import { getMapPreview } from "../../util/location"
 
 const LocationPicker = () => {
   const [userLocation, setUserLocation] = useState();
@@ -31,15 +32,27 @@ const LocationPicker = () => {
       return;
     }
     const location = await getCurrentPositionAsync();
-    console.log(location)
-    setUserLocation(location)
+    console.log(location.coords)
+    const coordinates = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude 
+    }
+    setUserLocation(coordinates)
   }
 
   const selectOnMapHandler = () => {}
 
+  let mapPreview = <Text>No location selected yet</Text>
+
+  if (userLocation) {
+    console.log(userLocation)
+    console.log(getMapPreview(userLocation.latitude, userLocation.longitude))
+    mapPreview = <Image source={{uri: getMapPreview(userLocation.latitude, userLocation.longitude)}} style={styles.image}/>
+  }
+
   return <View>
-    <View style={styles.mapPreview}>
-    
+    <View style={styles.mapPreviewContainer}>
+      {mapPreview}
     </View>
     <View style={styles.buttonsContainer}>
       <OutlinedButton icon="location" onPress={currentLocationHandler}>Current location</OutlinedButton>
@@ -51,7 +64,7 @@ const LocationPicker = () => {
 export default LocationPicker;
 
 const styles = StyleSheet.create({
-  mapPreview: {
+  mapPreviewContainer: {
     width: "100%",
     height: 200,
     marginVertical: 8, 
@@ -64,5 +77,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 6
   }
 })
