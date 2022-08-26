@@ -1,17 +1,35 @@
+import { useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import AppLoading from "expo-app-loading";
 
 import AllPlaces from "./screens/AllPlaces";
 import AddPlace from "./screens/AddPlace";
 import Map from "./screens/Map";
+import PlaceDetails from "./screens/PlaceDetails";
 import IconButton from "./components/ui/IconButton";
 import { Colors } from "./constants/colors";
+import { init } from "./util/database";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [dbInitialized, setDbInitialized] = useState(false);
+
+  useEffect(() => {
+    init()
+      .then(setDbInitialized(true))
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  if (!dbInitialized) {
+    return <AppLoading />;
+  }
+
   return (
     <>
       <StatusBar />
@@ -19,7 +37,7 @@ export default function App() {
         <Stack.Navigator
           screenOptions={{
             headerStyle: { backgroundColor: Colors.primary500 },
-            headerTintColor: Colors.gray700
+            headerTintColor: Colors.gray700,
           }}
         >
           <Stack.Screen
@@ -43,6 +61,7 @@ export default function App() {
             options={{ title: "Add New Place" }}
           />
           <Stack.Screen name="Map" component={Map} />
+          <Stack.Screen name="PlaceDetails" component={PlaceDetails} options={{title: 'Loading place...'}} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
