@@ -50,7 +50,7 @@ const LocationPicker = ({onPickLocation}) => {
     if (!hasPermission) {
       return;
     }
-    const location = await getCurrentPositionAsync({accuracy: LocationAccuracy.High});
+    const location = await getCurrentPositionAsync({accuracy: LocationAccuracy.Low});
     const coordinates = {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
