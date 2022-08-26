@@ -19,13 +19,12 @@ const LocationPicker = () => {
   const navigation = useNavigation();
   const route = useRoute()
   const isFocused = useIsFocused();
-  const pickedLocation = route.params?.location
 
   useEffect(() => {
-    if (isFocused && pickedLocation) {
-      setUserLocation(pickedLocation)
+    if (isFocused && route.params) {
+      setUserLocation(route.params.location)
     }
-  }, [pickedLocation, isFocused])
+  }, [route, isFocused])
 
   const verifyPermissions = async () => {
     if (

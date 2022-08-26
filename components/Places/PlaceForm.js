@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { StyleSheet, View, Text, ScrollView, TextInput } from "react-native";
 import { Colors } from "../../constants/colors";
+import Button from "../ui/Button";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 
@@ -23,6 +24,9 @@ const PlaceForm = () => {
       </View>
       <ImagePicker />
       <LocationPicker />
+      <View style={styles.buttonContainer}>
+      <Button>Add Place</Button>
+      </View>
     </ScrollView>
   );
 };
@@ -47,5 +51,9 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.primary700,
     borderBottomWidth: 2,
     color: Colors.primary800,
+    fontSize: 20
   },
+  buttonContainer: {
+    marginVertical: 8
+  }
 });
