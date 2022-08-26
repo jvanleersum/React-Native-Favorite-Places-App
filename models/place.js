@@ -3,7 +3,9 @@ class Place {
     this.title = title
     this.imageUri = imageUri
     this.address = address
-    this.location = location
+    this.location = {lat: location.latitude, lng: location.longitude}
     this.id = new Date().toISOString() + Math.random().toString()
   }
 }
+
+export default Place;
