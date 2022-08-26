@@ -10,7 +10,7 @@ import {
 
 import OutlinedButton from "../ui/OutlinedButton";
 import { Colors } from "../../constants/colors";
-import { getMapPreview } from "../../util/location";
+import { getLocationAddress, getMapPreview } from "../../util/location";
 
 const LocationPicker = ({onPickLocation}) => {
   const [userLocation, setUserLocation] = useState();
@@ -63,8 +63,14 @@ const LocationPicker = ({onPickLocation}) => {
   };
 
   useEffect(() => {
-    onPickLocation(userLocation);
-  }, [onPickLocation,userLocation])
+    const fetchLocationData = async () => {
+      if (userLocation) {
+        const address = await getLocationAddress(userLocation)
+        onPickLocation({location: userLocation, address: address});
+      }
+    }
+    fetchLocationData()
+  }, [onPickLocation, userLocation])
 
   let mapPreview = <Text>No location selected yet</Text>;
 
