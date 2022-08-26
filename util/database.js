@@ -61,10 +61,10 @@ export const fetchPlaces = () => {
         (_, result) => {
           const places = result.rows._array.map(
             (row) =>
-              new Place(row.id, row.title, row.imageUri, row.address, {
+              new Place(row.title, row.imageUri, row.address, {
                 lat: row.lat,
                 lng: row.lng,
-              })
+              }, row.id)
           );
           resolve(places);
         },
@@ -85,11 +85,10 @@ export const fetchPageDetails = (id) => {
         [id],
         (_, result) => {
           const row = result.rows._array[0]
-          console.log(row)
-          const place = new Place(row.id, row.title, row.imageUri, row.address, {
+          const place = new Place(row.title, row.imageUri, row.address, {
             lat: row.lat,
             lng: row.lng,
-          })
+          }, row.id)
           resolve(place)
         },
         (_, error) => {

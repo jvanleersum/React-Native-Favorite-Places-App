@@ -19,9 +19,15 @@ const PlaceDetails = ({ route, navigation }) => {
 
   const showOnMapHandler = () => {};
 
+  if (!selectedPlace) {
+    return <View style={styles.fallbackContainer}>
+      <Text style={styles.fallbackText}>Loading place details...</Text>
+    </View>
+  }
+
   return (
     <ScrollView>
-      <Image style={styles.image} />
+      <Image style={styles.image} source={{uri: selectedPlace.imageUri}}/>
       <View style={styles.locationContainer}>
         <View style={styles.addressContainer}>
           <Text style={styles.address}>{selectedPlace.address}</Text>
@@ -58,4 +64,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  fallbackContainer: {
+    flex: 1, 
+    justifyContent: 'center',
+    alignItems:'center'
+  },
+  fallbackText: {
+    fontSize: 16,
+    color: Colors.primary500
+  }
 });
