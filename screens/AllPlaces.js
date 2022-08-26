@@ -1,21 +1,25 @@
-import { useEffect, useState } from 'react';
-import { useIsFocused } from '@react-navigation/native';
-import PlacesList from '../components/Places/PlacesList'
+import { useEffect, useState } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import PlacesList from "../components/Places/PlacesList";
+import { fetchPlaces } from "../util/database";
 
-const AllPlaces = ({route}) => {
-  const [places, setPlaces] = useState([])
+const AllPlaces = () => {
+  const [loadedPlaces, setLoadedPlaces] = useState([]);
   const isFocused = useIsFocused();
-  
+
   useEffect(() => {
-    if (isFocused && route.params) {
-      const newPlace = route.params?.place;
-      setPlaces(prevPlaces => [newPlace, ...prevPlaces])
-    }
-  }, [route, setPlaces])
+    const getPlaces = async () => {
+      if (isFocused) {
+        const places = await fetchPlaces();
+        setLoadedPlaces(places);
+      }
+    };
+    getPlaces();
+  }, [isFocused]);
 
-  console.log(places)
+  console.log(loadedPlaces);
 
-  return <PlacesList places={places}/>
-}
+  return <PlacesList places={loadedPlaces} />;
+};
 
 export default AllPlaces;
