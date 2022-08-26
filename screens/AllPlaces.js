@@ -17,8 +17,6 @@ const AllPlaces = () => {
     getPlaces();
   }, [isFocused]);
 
-  console.log(loadedPlaces);
-
   return <PlacesList places={loadedPlaces} />;
 };
 

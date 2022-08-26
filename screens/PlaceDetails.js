@@ -1,9 +1,20 @@
+import { useEffect, useState } from "react";
 import { ScrollView, View, Image, Text, StyleSheet } from "react-native";
 import OutlinedButton from "../components/ui/OutlinedButton";
 import { Colors } from "../constants/colors";
+import { fetchPageDetails, fetchPlaces } from "../util/database";
 
 const PlaceDetails = ({ route }) => {
-  const id = route.params.id;
+  const [selectedPlace, setSelectedPlace] = useState();
+  const selectedPlaceId = route.params.id;
+
+  useEffect(() => {
+    const getPlaceDetails = async() => {
+      const fetchedPlace = await fetchPageDetails(selectedPlaceId)
+      setSelectedPlace(fetchedPlace)
+    }
+    getPlaceDetails()
+  }, [selectedPlaceId])
 
   const showOnMapHandler = () => {};
 
@@ -12,7 +23,7 @@ const PlaceDetails = ({ route }) => {
       <Image style={styles.image} />
       <View style={styles.locationContainer}>
         <View style={styles.addressContainer}>
-          <Text style={styles.address}>Address</Text>
+          <Text style={styles.address}>{selectedPlace.address}</Text>
         </View>
         <OutlinedButton icon="map" onPress={showOnMapHandler}>
           View on Map
