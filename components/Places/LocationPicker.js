@@ -64,7 +64,7 @@ const LocationPicker = ({onPickLocation}) => {
 
   useEffect(() => {
     onPickLocation(userLocation);
-  }, [userLocation])
+  }, [onPickLocation,userLocation])
 
   let mapPreview = <Text>No location selected yet</Text>;
 
