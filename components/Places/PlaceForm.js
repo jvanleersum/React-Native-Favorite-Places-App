@@ -1,12 +1,13 @@
 import { useCallback, useState } from "react";
 import { StyleSheet, View, Text, ScrollView, TextInput } from "react-native";
 
+import Place from "../../models/place";
 import { Colors } from "../../constants/colors";
 import Button from "../ui/Button";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 
-const PlaceForm = ({onNewPlace}) => {
+const PlaceForm = ({ onNewPlace }) => {
   const [enteredTitle, setEnteredTitle] = useState();
   const [selectedImage, setSelectedImage] = useState();
   const [selectedLocation, setSelectedLocation] = useState();
@@ -18,22 +19,22 @@ const PlaceForm = ({onNewPlace}) => {
 
   const takeImageHandler = (takenImageUri) => {
     setSelectedImage(takenImageUri);
-  }
+  };
 
-  const pickLocationHandler = useCallback(({location, address}) => {
+  const pickLocationHandler = useCallback(({ location, address }) => {
     setSelectedLocation(location);
     setFetchedAddress(address);
-  },[])
+  }, []);
 
   const savePlaceHandler = () => {
-    const newPlace = {
-      title: enteredTitle, 
-      imageUri: selectedImage, 
-      address: fetchedAddress, 
-      location: selectedLocation
-    }
+    const newPlace = new Place(
+      enteredTitle,
+      selectedImage,
+      fetchedAddress,
+      selectedLocation
+    );
     onNewPlace(newPlace);
-  }
+  };
 
   return (
     <ScrollView style={styles.form}>
@@ -45,10 +46,10 @@ const PlaceForm = ({onNewPlace}) => {
           value={enteredTitle}
         />
       </View>
-      <ImagePicker onTakeImage={takeImageHandler}/>
-      <LocationPicker onPickLocation={pickLocationHandler}/>
+      <ImagePicker onTakeImage={takeImageHandler} />
+      <LocationPicker onPickLocation={pickLocationHandler} />
       <View style={styles.buttonContainer}>
-      <Button onPress={savePlaceHandler}>Add Place</Button>
+        <Button onPress={savePlaceHandler}>Add Place</Button>
       </View>
     </ScrollView>
   );
@@ -74,9 +75,9 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.primary700,
     borderBottomWidth: 2,
     color: Colors.primary800,
-    fontSize: 20
+    fontSize: 20,
   },
   buttonContainer: {
-    marginVertical: 8
-  }
+    marginVertical: 8,
+  },
 });
