@@ -7,10 +7,10 @@ const Map = ({ navigation }) => {
   const [selectedLocation, setSelectedLocation] = useState();
   
   const region = {
-    latitude: 37.78,
-    longitude: -122.43,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitude: 52.37,
+    longitude: 4.89,
+    latitudeDelta: 0.0522,
+    longitudeDelta: 0.0521,
   };
   
   const selectLocationHandler = (event) => {

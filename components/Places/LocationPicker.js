@@ -5,13 +5,14 @@ import {
   getCurrentPositionAsync,
   useForegroundPermissions,
   PermissionStatus,
+  LocationAccuracy
 } from "expo-location";
 
 import OutlinedButton from "../ui/OutlinedButton";
 import { Colors } from "../../constants/colors";
 import { getMapPreview } from "../../util/location";
 
-const LocationPicker = () => {
+const LocationPicker = ({onPickLocation}) => {
   const [userLocation, setUserLocation] = useState();
   const [locationPermissionInformation, requestPermission] =
   useForegroundPermissions();
@@ -19,13 +20,12 @@ const LocationPicker = () => {
   const navigation = useNavigation();
   const route = useRoute()
   const isFocused = useIsFocused();
-  const pickedLocation = route.params?.location
 
   useEffect(() => {
-    if (isFocused && pickedLocation) {
-      setUserLocation(pickedLocation)
+    if (isFocused && route.params) {
+      setUserLocation(route.params.location)
     }
-  }, [pickedLocation, isFocused])
+  }, [route, isFocused])
 
   const verifyPermissions = async () => {
     if (
@@ -50,8 +50,7 @@ const LocationPicker = () => {
     if (!hasPermission) {
       return;
     }
-    const location = await getCurrentPositionAsync();
-    console.log(location.coords);
+    const location = await getCurrentPositionAsync({accuracy: LocationAccuracy.Low});
     const coordinates = {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
@@ -62,6 +61,10 @@ const LocationPicker = () => {
   const selectOnMapHandler = () => {
     navigation.navigate("Map");
   };
+
+  useEffect(() => {
+    onPickLocation(userLocation);
+  }, [onPickLocation,userLocation])
 
   let mapPreview = <Text>No location selected yet</Text>;
 
