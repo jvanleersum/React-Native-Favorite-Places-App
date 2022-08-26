@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { StyleSheet, View, Text, ScrollView, TextInput } from "react-native";
 
 import { Colors } from "../../constants/colors";
@@ -6,7 +6,7 @@ import Button from "../ui/Button";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 
-const PlaceForm = () => {
+const PlaceForm = ({onNewPlace}) => {
   const [enteredTitle, setEnteredTitle] = useState();
   const [selectedImage, setSelectedImage] = useState();
   const [selectedLocation, setSelectedLocation] = useState();
@@ -25,18 +25,14 @@ const PlaceForm = () => {
     setFetchedAddress(address);
   },[])
 
-  // useEffect(() => {
-  //   if (selectedLocation) {
-  //     const address = getLocationAddress(selectedLocation)
-  //     setGeocodedAddress(address)
-  //   }
-  // }, [getLocationAddress, setGeocodedAddress, selectedLocation])
-
   const savePlaceHandler = () => {
-    console.log(enteredTitle)
-    console.log(selectedImage)
-    console.log(selectedLocation)
-    console.log(fetchedAddress)
+    const newPlace = {
+      title: enteredTitle, 
+      imageUri: selectedImage, 
+      address: fetchedAddress, 
+      location: selectedLocation
+    }
+    onNewPlace(newPlace);
   }
 
   return (
