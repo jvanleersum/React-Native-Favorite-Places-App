@@ -48,5 +48,6 @@ export const insertPlace = (place) => {
         }
       );
     });
+    return promise;
   });
 };
