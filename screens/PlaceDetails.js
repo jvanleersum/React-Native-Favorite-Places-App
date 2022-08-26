@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { ScrollView, View, Image, Text, StyleSheet } from "react-native";
 import OutlinedButton from "../components/ui/OutlinedButton";
 import { Colors } from "../constants/colors";
-import { fetchPageDetails, fetchPlaces } from "../util/database";
+import { fetchPageDetails} from "../util/database";
 
-const PlaceDetails = ({ route }) => {
+const PlaceDetails = ({ route, navigation }) => {
   const [selectedPlace, setSelectedPlace] = useState();
   const selectedPlaceId = route.params.id;
 
@@ -12,6 +12,7 @@ const PlaceDetails = ({ route }) => {
     const getPlaceDetails = async() => {
       const fetchedPlace = await fetchPageDetails(selectedPlaceId)
       setSelectedPlace(fetchedPlace)
+      navigation.setOptions({title: fetchedPlace.title})
     }
     getPlaceDetails()
   }, [selectedPlaceId])
