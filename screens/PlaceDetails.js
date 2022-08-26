@@ -2,32 +2,44 @@ import { useEffect, useState } from "react";
 import { ScrollView, View, Image, Text, StyleSheet } from "react-native";
 import OutlinedButton from "../components/ui/OutlinedButton";
 import { Colors } from "../constants/colors";
-import { fetchPageDetails} from "../util/database";
+import { fetchPageDetails } from "../util/database";
 
 const PlaceDetails = ({ route, navigation }) => {
   const [selectedPlace, setSelectedPlace] = useState();
   const selectedPlaceId = route.params.id;
 
   useEffect(() => {
-    const getPlaceDetails = async() => {
-      const fetchedPlace = await fetchPageDetails(selectedPlaceId)
-      setSelectedPlace(fetchedPlace)
-      navigation.setOptions({title: fetchedPlace.title})
-    }
-    getPlaceDetails()
-  }, [selectedPlaceId])
+    const getPlaceDetails = async () => {
+      const fetchedPlace = await fetchPageDetails(selectedPlaceId);
+      setSelectedPlace(fetchedPlace);
+      console.log(fetchedPlace)
+      navigation.setOptions({ title: fetchedPlace.title });
+    };
+    getPlaceDetails();
+  }, [selectedPlaceId]);
 
-  const showOnMapHandler = () => {};
+  const showOnMapHandler = () => {
+    console.log(selectedPlace)
+    navigation.navigate("Map", {
+      location: {
+        lat: selectedPlace.location.lat,
+        lng: selectedPlace.location.lng,
+      },
+      title: selectedPlace.title,
+    });
+  };
 
   if (!selectedPlace) {
-    return <View style={styles.fallbackContainer}>
-      <Text style={styles.fallbackText}>Loading place details...</Text>
-    </View>
+    return (
+      <View style={styles.fallbackContainer}>
+        <Text style={styles.fallbackText}>Loading place details...</Text>
+      </View>
+    );
   }
 
   return (
     <ScrollView>
-      <Image style={styles.image} source={{uri: selectedPlace.imageUri}}/>
+      <Image style={styles.image} source={{ uri: selectedPlace.imageUri }} />
       <View style={styles.locationContainer}>
         <View style={styles.addressContainer}>
           <Text style={styles.address}>{selectedPlace.address}</Text>
@@ -65,12 +77,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   fallbackContainer: {
-    flex: 1, 
-    justifyContent: 'center',
-    alignItems:'center'
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   fallbackText: {
     fontSize: 16,
-    color: Colors.primary500
-  }
+    color: Colors.primary500,
+  },
 });

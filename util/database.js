@@ -61,10 +61,16 @@ export const fetchPlaces = () => {
         (_, result) => {
           const places = result.rows._array.map(
             (row) =>
-              new Place(row.title, row.imageUri, row.address, {
-                lat: row.lat,
-                lng: row.lng,
-              }, row.id)
+              new Place(
+                row.title,
+                row.imageUri,
+                row.address,
+                {
+                  latitude: row.lat,
+                  longitude: row.lng,
+                },
+                row.id
+              )
           );
           resolve(places);
         },
@@ -84,18 +90,24 @@ export const fetchPageDetails = (id) => {
         "SELECT * FROM places WHERE places.id = ?",
         [id],
         (_, result) => {
-          const row = result.rows._array[0]
-          const place = new Place(row.title, row.imageUri, row.address, {
-            lat: row.lat,
-            lng: row.lng,
-          }, row.id)
-          resolve(place)
+          const row = result.rows._array[0];
+          const place = new Place(
+            row.title,
+            row.imageUri,
+            row.address,
+            {
+              latitude: row.lat,
+              longitude: row.lng,
+            },
+            row.id
+          );
+          resolve(place);
         },
         (_, error) => {
-          reject(error)
+          reject(error);
         }
       );
     });
   });
-  return promise
+  return promise;
 };
