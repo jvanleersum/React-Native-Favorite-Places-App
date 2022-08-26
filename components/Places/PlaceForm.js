@@ -21,6 +21,7 @@ const PlaceForm = () => {
   const pickLocationHandler = (pickedLocation) => {
     setSelectedLocation(pickedLocation);
   }
+  console.log(selectedLocation)
 
   const savePlaceHandler = () => {
 
